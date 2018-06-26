@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "147030658496",
+    "firebase_url": "https://habits-a1975.firebaseio.com",
+    "project_id": "habits-a1975",
+    "storage_bucket": "habits-a1975.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:147030658496:android:c1f9ef40b405bb69",
+        "android_client_info": {
+          "package_name": "com.example.android.habits"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "147030658496-328o87dnleuck0r7rr88fekgthrbs209.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.android.habits",
+            "certificate_hash": "a9151ebefc446da87fe953f12cecfc64ad381c11"
+          }
+        },
+        {
+          "client_id": "147030658496-u6qelaf515k7k09vm9oo126qv5uhn8ni.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD48_4AJcFVsaJjnn0VWPP-dSvT4AefROk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "147030658496-u6qelaf515k7k09vm9oo126qv5uhn8ni.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
