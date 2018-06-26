@@ -1,53 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/remindMeListRv"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.android.habits.Home_Activity">
 
-
-    <Button
+    <!--<Button
         android:id="@+id/onClickBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="52dp"
         android:layout_marginStart="52dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="16dp"
         android:text="onClickBtn"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginLeft="52dp" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/onScheduledBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="36dp"
         android:layout_marginStart="36dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="16dp"
         android:text="onScheduledBtn"
         app:layout_constraintStart_toEndOf="@+id/onClickBtn"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginLeft="36dp" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/editBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="52dp"
-        android:layout_marginTop="148dp"
+        android:layout_marginLeft="64dp"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="20dp"
         android:text="editBtn"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/onClickBtn"
-        android:layout_marginLeft="52dp" />
+        app:layout_constraintTop_toBottomOf="@+id/onClickBtn" />
 
     <Button
         android:id="@+id/createBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="84dp"
-        android:layout_marginTop="148dp"
+        android:layout_marginLeft="72dp"
+        android:layout_marginStart="72dp"
+        android:layout_marginTop="20dp"
         android:text="createBtn"
         app:layout_constraintStart_toEndOf="@+id/editBtn"
-        app:layout_constraintTop_toBottomOf="@+id/onScheduledBtn"
-        android:layout_marginLeft="84dp" />
-</android.support.constraint.ConstraintLayout>
+        app:layout_constraintTop_toBottomOf="@+id/onScheduledBtn" />-->
+
+
+</android.support.v7.widget.RecyclerView>

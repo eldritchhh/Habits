@@ -10,10 +10,58 @@
         android:id="@+id/homeBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="148dp"
         android:layout_marginStart="148dp"
-        android:layout_marginTop="228dp"
+        android:layout_marginTop="72dp"
         android:text="home"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginLeft="148dp" />
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/createRemindMeBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="32dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="60dp"
+        android:text="New Remind Me"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/homeBtn" />
+
+    <Button
+        android:id="@+id/showRemindMeTitleBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="32dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="44dp"
+        android:text="Show title RM"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/createRemindMeBtn" />
+
+    <TextView
+        android:id="@+id/remindMeTitleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginLeft="88dp"
+        android:layout_marginStart="88dp"
+        android:layout_marginTop="56dp"
+        android:text="TextView"
+        android:textSize="30px"
+        app:layout_constraintStart_toEndOf="@+id/showRemindMeTitleBtn"
+        app:layout_constraintTop_toBottomOf="@+id/createRemindMeBtn" />
+
+    <EditText
+        android:id="@+id/remindMeTitlePt"
+        android:layout_width="134dp"
+        android:layout_height="52dp"
+        android:layout_marginLeft="48dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="60dp"
+        android:ems="10"
+        android:hint="Title"
+        android:inputType="textPersonName"
+        android:text="Name"
+        app:layout_constraintStart_toEndOf="@+id/createRemindMeBtn"
+        app:layout_constraintTop_toBottomOf="@+id/homeBtn" />
 </android.support.constraint.ConstraintLayout>

@@ -4,19 +4,21 @@ package Model;
  * Created by Francesco on 25/06/2018.
  */
 
-class Task {
-    private String text;
+public class Task {
 
+    private String description;
 
-    private Task(String text){
-        this.text = text;
+    public Task(){ }
+
+    public Task(String description){
+        this.description = description;
     }
 
-    public String getText() {
-        return text;
+    public String getDescription() {
+        return description;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
