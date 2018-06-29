@@ -1,33 +1,41 @@
-package com.example.android.habits;
+package com.example.android.habits.activities;
 
+import android.content.Intent;
 import android.graphics.Color;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.widget.Button;
 import android.widget.Toast;
+
+import com.example.android.habits.R;
 
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
-import Adapter.RecyclerViewAdapter;
+import com.example.android.habits.adapters.RecyclerViewAdapter;
 
-import Fragments.OnClickRemindMeListFragment;
-import ListObserver.ListsObservable;
-import Model.OnClickRemindMe;
-import Singleton.Singleton;
+import com.example.android.habits.models.Task;
+import com.example.android.habits.observables.ListsObservable;
+import com.example.android.habits.models.OnClickRemindMe;
+import com.example.android.habits.singleton.God;
+
+import butterknife.BindView;
+import butterknife.OnClick;
 
 // TODO create singleton class + db (già strutturato)
 
-// TODO switch tra onclic e scheduled
 // TODO elenco delle liste collegato a firebase (--> recyclerview)
+
 // TODO onclick apre la lista
+
 // TODO onhold apre popup modify/delete/active(solo se scheduled)
-// TODO salvo un contatore per vedere quanti click faccio (statistiche + sapere le più usate)
+
 // TODO ultimo elemento recyclerview per creare una nuova lista (--> Create_Activity)
+
 // TODO menu con 3 puntini in alto a sx con preferences, liste non finite, ...
 // TODO salvare le cose in locale (mySql) e pushare in Asynctask
 // TODO per le liste scheduled countdown dal prossimo scheduling
@@ -38,12 +46,15 @@ public class Home_Activity extends AppCompatActivity implements RecyclerViewAdap
     private Toast mToast;
     private RecyclerViewAdapter mAdapter;
 
+    /*@BindView(R.id.createBtn)
+    Button createBtn;*/
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_);
 
-        Singleton.getInstance();
+        God.getInstance();
 
         ListsObservable.getInstance().addObserver(this);
 
@@ -67,11 +78,6 @@ public class Home_Activity extends AppCompatActivity implements RecyclerViewAdap
                 viewHolder.itemView.setBackgroundColor(Color.GREEN);
             }
         }).attachToRecyclerView(remindMeListRv);
-
-
-
-
-
 
 
 
@@ -106,7 +112,13 @@ public class Home_Activity extends AppCompatActivity implements RecyclerViewAdap
                 startActivity(new Intent(Home_Activity.this, Create_Activity.class));
             }
         });*/
+
     }
+
+    /*@OnClick(R.id.createBtn)
+    public void create(){
+        startActivity(new Intent(Home_Activity.this, Create_Activity.class));
+    }*/
 
     @Override
     public void update(Observable o, Object arg) {
@@ -116,12 +128,14 @@ public class Home_Activity extends AppCompatActivity implements RecyclerViewAdap
 
     @Override
     public void OnListItemClick(int clickedItemId) {
-        if (mToast != null) mToast.cancel();
+        startActivity(new Intent(getApplicationContext(), Create_Activity.class));
+
+        /*if (mToast != null) mToast.cancel();
 
         String toastMessage = "Item #" + clickedItemId + " clicked.";
         mToast = Toast.makeText(this, toastMessage, Toast.LENGTH_LONG);
 
-        mToast.show();
+        mToast.show();*/
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
             public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {

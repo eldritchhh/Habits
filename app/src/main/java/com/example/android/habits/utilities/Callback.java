@@ -1,4 +1,4 @@
-package Utilities;
+package com.example.android.habits.utilities;
 
 /**
  * Created by rivareus24 on 30/03/2018.

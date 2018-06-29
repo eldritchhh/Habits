@@ -1,13 +1,13 @@
-package ListObserver;
+package com.example.android.habits.observables;
 
 import java.util.List;
 import java.util.Observable;
 
-import Model.OnClickRemindMe;
-import Model.ScheduledRemindMe;
+import com.example.android.habits.models.OnClickRemindMe;
+import com.example.android.habits.models.ScheduledRemindMe;
 
-import static Singleton.Singleton.ON_CLICK_LIST;
-import static Singleton.Singleton.SCHEDULED_LIST;
+import static com.example.android.habits.singleton.God.ON_CLICK_LIST;
+import static com.example.android.habits.singleton.God.SCHEDULED_LIST;
 
 public class ListsObservable extends Observable {
 

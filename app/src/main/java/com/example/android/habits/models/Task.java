@@ -1,4 +1,4 @@
-package Model;
+package com.example.android.habits.models;
 
 /**
  * Created by Francesco on 25/06/2018.

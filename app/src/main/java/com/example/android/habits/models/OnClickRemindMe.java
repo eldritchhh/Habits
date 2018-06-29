@@ -1,4 +1,4 @@
-package Model;
+package com.example.android.habits.models;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package Adapter;
+package com.example.android.habits.adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -12,7 +12,7 @@ import com.example.android.habits.R;
 
 import java.util.List;
 
-import Model.OnClickRemindMe;
+import com.example.android.habits.models.OnClickRemindMe;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 

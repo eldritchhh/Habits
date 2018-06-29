@@ -1,7 +1,8 @@
-package Singleton;
+package com.example.android.habits.singleton;
 
 import android.support.annotation.NonNull;
 
+import com.example.android.habits.models.Task;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
@@ -11,16 +12,17 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import Model.OnClickRemindMe;
-import Model.ScheduledRemindMe;
-import ListObserver.ListsObservable;
-import Utilities.Callback;
+import com.example.android.habits.models.OnClickRemindMe;
+import com.example.android.habits.models.ScheduledRemindMe;
+import com.example.android.habits.observables.ListsObservable;
+import com.example.android.habits.utilities.Callback;
 
-public class Singleton {
+public class God {
 
-    private static Singleton singleton;
+    private static God god;
     private FirebaseFirestore db;
 
     public final static String SCHEDULED_LIST = "scheduled";
@@ -28,12 +30,12 @@ public class Singleton {
 
     private static final String COLLECTION_NAME = "RemindMeCollection";
 
-    public List<OnClickRemindMe> onClickRemindMeList;
-    public List<ScheduledRemindMe> scheduledRemindMeList;
+    public static List<OnClickRemindMe> onClickRemindMeList;
+    public static List<ScheduledRemindMe> scheduledRemindMeList;
 
     // TODO Gestire i permessi di scrittura sul db da firebase
 
-    private Singleton() {
+    private God() {
         // TODO MultiUtenti
         // Lista di collections ==> lista di utenti
         // Ogni utente avrà:
@@ -75,10 +77,10 @@ public class Singleton {
         );
     }
 
-    public synchronized static Singleton getInstance() {
-        if (singleton == null)
-            singleton = new Singleton();
-        return singleton;
+    public synchronized static God getInstance() {
+        if (god == null)
+            god = new God();
+        return god;
     }
 
     // LOCAL DB METHODS
