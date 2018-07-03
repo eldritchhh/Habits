@@ -26,7 +26,6 @@
         <activity android:name=".activities.Home_Activity" />
         <activity android:name=".activities.Create_Activity" />
         <activity android:name=".activities.ScheduledRemindMe_Activity" />
-        <activity android:name=".activities.OnClickRemindMe_Activity" />
         <activity android:name=".activities.Edit_Activity" />
     </application>
 

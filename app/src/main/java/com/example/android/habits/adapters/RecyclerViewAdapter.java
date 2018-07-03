@@ -9,21 +9,20 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.android.habits.R;
+import com.example.android.habits.models.RemindMe;
 
 import java.util.List;
-
-import com.example.android.habits.models.OnClickRemindMe;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
     private int itemsNumber;
     private final ListItemClickListener mListener;
-    private List<OnClickRemindMe> onClickRemindMeList;
+    private List<RemindMe> remindMeList;
 
-    public RecyclerViewAdapter(int itemsNumber, ListItemClickListener listener, List<OnClickRemindMe> onClickRemindMeList) {
+    public RecyclerViewAdapter(int itemsNumber, ListItemClickListener listener, List<RemindMe> remindMeList) {
         this.itemsNumber = itemsNumber;
         this.mListener = listener;
-        this.onClickRemindMeList = onClickRemindMeList;
+        this.remindMeList = remindMeList;
     }
     //private List<RecyclerViewActivity.Product> groceries;
 
@@ -43,12 +42,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerViewAdapter.ViewHolder holder, int position) {
-        holder.remindMeTitleTv.setText(this.onClickRemindMeList.get(position).getTitle().toString());
+        holder.remindMeTitleTv.setText(this.remindMeList.get(position).getTitle().toString());
     }
 
     @Override
     public int getItemCount() {
-        return this.onClickRemindMeList.size();
+        return this.remindMeList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{

@@ -3,26 +3,15 @@ package com.example.android.habits.observables;
 import java.util.List;
 import java.util.Observable;
 
-import com.example.android.habits.models.OnClickRemindMe;
-import com.example.android.habits.models.ScheduledRemindMe;
-
-import static com.example.android.habits.singleton.God.ON_CLICK_LIST;
-import static com.example.android.habits.singleton.God.SCHEDULED_LIST;
+import com.example.android.habits.models.RemindMe;
 
 public class ListsObservable extends Observable {
 
     public static ListsObservable observable;
 
-    private boolean scheduledListReady;
-    private boolean onClickListReady;
+    private List<RemindMe> remindMeList;
 
-    private List<OnClickRemindMe> onClickRemindMeList;
-    private List<ScheduledRemindMe> scheduledRemindMeList;
-
-    public ListsObservable() {
-        scheduledListReady = false;
-        onClickListReady = false;
-    }
+    public ListsObservable() { }
 
     public synchronized static ListsObservable getInstance() {
         if (observable == null)
@@ -30,22 +19,10 @@ public class ListsObservable extends Observable {
         return observable;
     }
 
-    public void setValues(String listName, Object list) {
-        switch (listName) {
-            case SCHEDULED_LIST:
-                scheduledListReady = true;
-                scheduledRemindMeList = (List<ScheduledRemindMe>) list;
-                break;
-            case ON_CLICK_LIST:
-                onClickListReady = true;
-                onClickRemindMeList = (List<OnClickRemindMe>) list;
-                break;
-            default:
-        }
+    public void setValues(Object list) {
+        remindMeList = (List<RemindMe>) list;
 
-        if (scheduledListReady && onClickListReady){
-            setChanged();
-            notifyObservers(onClickRemindMeList);
-        }
+        setChanged();
+        notifyObservers(remindMeList);
     }
 }

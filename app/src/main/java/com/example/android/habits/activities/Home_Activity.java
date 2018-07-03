@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.android.habits.R;
@@ -18,13 +17,9 @@ import java.util.Observer;
 
 import com.example.android.habits.adapters.RecyclerViewAdapter;
 
-import com.example.android.habits.models.Task;
+import com.example.android.habits.models.RemindMe;
 import com.example.android.habits.observables.ListsObservable;
-import com.example.android.habits.models.OnClickRemindMe;
 import com.example.android.habits.singleton.God;
-
-import butterknife.BindView;
-import butterknife.OnClick;
 
 // TODO create singleton class + db (già strutturato)
 
@@ -64,9 +59,6 @@ public class Home_Activity extends AppCompatActivity implements RecyclerViewAdap
 
         this.remindMeListRv.setLayoutManager(layoutManager);
 
-        // OnClickRemindMeListFragment onClickRemindMeListFragment = new OnClickRemindMeListFragment();
-        // FragmentManager fragmentManager = getSupportFragmentManager();
-
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
             public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
@@ -81,15 +73,7 @@ public class Home_Activity extends AppCompatActivity implements RecyclerViewAdap
 
 
 
-        /*Button onClickBtn = (Button) findViewById(R.id.onClickBtn);
-        onClickBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(Home_Activity.this, OnClickRemindMe_Activity.class));
-            }
-        });
-
-        Button onScheduledBtn = (Button) findViewById(R.id.onScheduledBtn);
+        /*Button onScheduledBtn = (Button) findViewById(R.id.onScheduledBtn);
         onScheduledBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -122,7 +106,7 @@ public class Home_Activity extends AppCompatActivity implements RecyclerViewAdap
 
     @Override
     public void update(Observable o, Object arg) {
-        mAdapter = new RecyclerViewAdapter(5, this, (List<OnClickRemindMe>) arg);
+        mAdapter = new RecyclerViewAdapter(5, this, (List<RemindMe>) arg);
         remindMeListRv.setAdapter(mAdapter);
     }
 

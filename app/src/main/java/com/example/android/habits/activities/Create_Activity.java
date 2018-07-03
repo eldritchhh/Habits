@@ -8,8 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.android.habits.R;
-import com.example.android.habits.models.OnClickRemindMe;
-import com.example.android.habits.models.ScheduledRemindMe;
+import com.example.android.habits.models.RemindMe;
 import com.example.android.habits.models.Task;
 import com.example.android.habits.singleton.God;
 
@@ -55,8 +54,7 @@ public class Create_Activity extends AppCompatActivity {
 
                 for (int i = 0; i < 10; i++) {
                     String s1 = remindMeTitlePt.getText().toString() + "_" + i;
-                    god.addOnClickRemindMeFS(new OnClickRemindMe(s1, tasks, false));
-                    god.addScheduledRemindMeFS(new ScheduledRemindMe(s1 + "_sched", tasks, date, weekdays));
+                    god.addRemindMeFS(new RemindMe(s1, tasks, date, weekdays));
                 }
 
             }

@@ -2,7 +2,6 @@ package com.example.android.habits.singleton;
 
 import android.support.annotation.NonNull;
 
-import com.example.android.habits.models.Task;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
@@ -12,11 +11,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import com.example.android.habits.models.OnClickRemindMe;
-import com.example.android.habits.models.ScheduledRemindMe;
+import com.example.android.habits.models.RemindMe;
 import com.example.android.habits.observables.ListsObservable;
 import com.example.android.habits.utilities.Callback;
 
@@ -25,13 +22,9 @@ public class God {
     private static God god;
     private FirebaseFirestore db;
 
-    public final static String SCHEDULED_LIST = "scheduled";
-    public final static String ON_CLICK_LIST = "onClick";
-
     private static final String COLLECTION_NAME = "RemindMeCollection";
 
-    public static List<OnClickRemindMe> onClickRemindMeList;
-    public static List<ScheduledRemindMe> scheduledRemindMeList;
+    public static List<RemindMe> remindMeList;
 
     // TODO Gestire i permessi di scrittura sul db da firebase
 
@@ -43,21 +36,10 @@ public class God {
         // - un doc con personal info
         setUpDb();
 
-        this.getScheduledRemindMeListFS(new Callback() {
+        this.getRemindMeListFS(new Callback() {
             @Override
             public void onSuccess(Object data) {
-                ListsObservable.getInstance().setValues(SCHEDULED_LIST, data);
-            }
-
-            @Override
-            public void onFailure(Error error, String message) {
-            }
-        });
-
-        this.getOnClickRemindMeListFS(new Callback() {
-            @Override
-            public void onSuccess(Object data) {
-                ListsObservable.getInstance().setValues(ON_CLICK_LIST, data);
+                ListsObservable.getInstance().setValues(data);
             }
 
             @Override
@@ -85,62 +67,33 @@ public class God {
 
     // LOCAL DB METHODS
 
-    public OnClickRemindMe getOnClickRemindMe(int index) {
-        return this.onClickRemindMeList.get(index);
+    public RemindMe getRemindMe(int index) {
+        return this.remindMeList.get(index);
     }
 
-    public ScheduledRemindMe getScheduledRemindMe(int index) {
-        return this.scheduledRemindMeList.get(index);
+    public List<RemindMe> getRemindMeList() {
+        return this.remindMeList;
     }
 
-    public List<OnClickRemindMe> getOnClickRemindMeList() {
-        return this.onClickRemindMeList;
-    }
-
-    public List<ScheduledRemindMe> getScheduledRemindMeList() {
-        return this.scheduledRemindMeList;
-    }
-
-    public void addOnClickRemindMe(OnClickRemindMe onClickRemindMe) {
+    public void addRemindMe(RemindMe remindMe) {
         // TODO Controlli?
-        onClickRemindMeList.add(onClickRemindMe);
+        remindMeList.add(remindMe);
         // TODO asyncTask per aggiornare DB
     }
 
-    public void addScheduledRemindMe(ScheduledRemindMe scheduledRemindMe) {
-        // TODO Controlli?
-        scheduledRemindMeList.add(scheduledRemindMe);
-        // TODO asyncTask per aggiornare DB
-    }
-
-    public void deleteScheduledRemindMe(ScheduledRemindMe scheduledRemindMe) {
-        scheduledRemindMeList.remove(scheduledRemindMe);
-    }
-
-    public void deleteOnClickRemindMe(OnClickRemindMe onClickRemindMe) {
-        onClickRemindMeList.remove(onClickRemindMe);
+    public void deleteRemindMe(RemindMe remindMe) {
+        remindMeList.remove(remindMe);
     }
 
     // FIRESTORE METHODS
 
-    public void getScheduledRemindMeListFS(final Callback callback) {
+    public void getRemindMeListFS(final Callback callback) {
         CollectionReference collectionReference = db.collection(COLLECTION_NAME);
         collectionReference.whereEqualTo("estScheduled", true)
                 .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                callback.onSuccess(queryDocumentSnapshots.toObjects(ScheduledRemindMe.class));
-            }
-        });
-    }
-
-    public void getOnClickRemindMeListFS(final Callback callback) {
-        CollectionReference collectionReference = db.collection(COLLECTION_NAME);
-        collectionReference.whereEqualTo("estScheduled", false)
-                .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-            @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                callback.onSuccess(queryDocumentSnapshots.toObjects(OnClickRemindMe.class));
+                callback.onSuccess(queryDocumentSnapshots.toObjects(RemindMe.class));
             }
         });
     }
@@ -154,8 +107,8 @@ public class God {
                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        OnClickRemindMe onClickRemindMe = documentSnapshot.toObject(OnClickRemindMe.class);
-                        callback.onSuccess(onClickRemindMe);
+                        RemindMe remindMe = documentSnapshot.toObject(RemindMe.class);
+                        callback.onSuccess(remindMe);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -166,12 +119,8 @@ public class God {
                 });
     }
 
-    public void addOnClickRemindMeFS(OnClickRemindMe onClickRemindMe) {
-        db.collection(COLLECTION_NAME).document(onClickRemindMe.getTitle()).set(onClickRemindMe);
-    }
-
-    public void addScheduledRemindMeFS(ScheduledRemindMe scheduledRemindMe) {
-        db.collection(COLLECTION_NAME).document(scheduledRemindMe.getTitle()).set(scheduledRemindMe);
+    public void addRemindMeFS(RemindMe remindMe) {
+        db.collection(COLLECTION_NAME).document(remindMe.getTitle()).set(remindMe);
     }
 
     public void updateRemindMeFS(final String title, String newTitle, final Callback callback) {
