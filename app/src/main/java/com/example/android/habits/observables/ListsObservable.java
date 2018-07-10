@@ -24,5 +24,6 @@ public class ListsObservable extends Observable {
 
         setChanged();
         notifyObservers(remindMeList);
+        // update lists on firebase
     }
 }

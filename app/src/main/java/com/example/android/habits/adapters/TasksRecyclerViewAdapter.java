@@ -13,23 +13,23 @@ import com.example.android.habits.models.RemindMe;
 
 import java.util.List;
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
+public class TasksRecyclerViewAdapter extends RecyclerView.Adapter<TasksRecyclerViewAdapter.ViewHolder> {
 
     private int itemsNumber;
     private final ListItemClickListener mListener;
-    private List<RemindMe> remindMeList;
+    private List<String> tasksList;
 
-    public RecyclerViewAdapter(int itemsNumber, ListItemClickListener listener, List<RemindMe> remindMeList) {
+    public TasksRecyclerViewAdapter(int itemsNumber, ListItemClickListener listener, List<String> tasksList) {
         this.itemsNumber = itemsNumber;
         this.mListener = listener;
-        this.remindMeList = remindMeList;
+        this.tasksList = tasksList;
     }
 
     @NonNull
     @Override
-    public RecyclerViewAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public TasksRecyclerViewAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Context context = parent.getContext();
-        int layoutIdForListItem = R.layout.recycler_view_remind_me;
+        int layoutIdForListItem = R.layout.recycler_view_task;
         LayoutInflater inflater = LayoutInflater.from(context);
         boolean shouldAttachToParentImmediately = false;
 
@@ -40,22 +40,22 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerViewAdapter.ViewHolder holder, int position) {
-        holder.remindMeTitleTv.setText(this.remindMeList.get(position).getTitle().toString());
+    public void onBindViewHolder(@NonNull TasksRecyclerViewAdapter.ViewHolder holder, int position) {
+        holder.taskNameTv.setText(this.tasksList.get(position).toString());
     }
 
     @Override
     public int getItemCount() {
-        return this.remindMeList.size();
+        return this.tasksList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
-        private TextView remindMeTitleTv;
+        private TextView taskNameTv;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            remindMeTitleTv = (TextView) itemView.findViewById(R.id.remindMeTitleTv);
+            taskNameTv = (TextView) itemView.findViewById(R.id.taskNameTv);
             itemView.setOnClickListener(this);
         }
 

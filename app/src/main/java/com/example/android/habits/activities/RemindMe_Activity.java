@@ -8,7 +8,7 @@ import android.widget.Button;
 
 import com.example.android.habits.R;
 
-public class ScheduledRemindMe_Activity extends AppCompatActivity {
+public class RemindMe_Activity extends AppCompatActivity {
 
     // TODO inizializzo la recyclerview dal db
     // TODO countdown di 5 secondi col primo task
@@ -23,13 +23,13 @@ public class ScheduledRemindMe_Activity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_scheduled_remind_me_);
+        setContentView(R.layout.activity_remind_me_);
 
     Button homeBtn = (Button) findViewById(R.id.homeBtn);
     homeBtn.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            startActivity(new Intent(ScheduledRemindMe_Activity.this, Home_Activity.class));
+            startActivity(new Intent(RemindMe_Activity.this, Home_Activity.class));
         }
     });
 

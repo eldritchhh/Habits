@@ -65,7 +65,7 @@ public class God {
         return god;
     }
 
-    // LOCAL DB METHODS
+    /** LOCAL DB METHODS */
 
     public RemindMe getRemindMe(int index) {
         return this.remindMeList.get(index);
@@ -85,7 +85,7 @@ public class God {
         remindMeList.remove(remindMe);
     }
 
-    // FIRESTORE METHODS
+    /** FIRESTORE METHODS */
 
     public void getRemindMeListFS(final Callback callback) {
         CollectionReference collectionReference = db.collection(COLLECTION_NAME);
@@ -159,7 +159,7 @@ public class God {
                 });
     }
 
-    // PRIVATE METHODS
+    /** PRIVATE METHODS */
 
     private DocumentReference getDocument(String collection, String document) {
         return db.collection(collection).document(document);

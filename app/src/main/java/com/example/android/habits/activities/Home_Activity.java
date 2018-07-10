@@ -2,11 +2,13 @@ package com.example.android.habits.activities;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.android.habits.R;
@@ -20,6 +22,10 @@ import com.example.android.habits.adapters.RecyclerViewAdapter;
 import com.example.android.habits.models.RemindMe;
 import com.example.android.habits.observables.ListsObservable;
 import com.example.android.habits.singleton.God;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 // TODO create singleton class + db (già strutturato)
 
@@ -48,6 +54,7 @@ public class Home_Activity extends AppCompatActivity implements RecyclerViewAdap
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_);
+        ButterKnife.bind(this);
 
         God.getInstance();
 
@@ -71,38 +78,7 @@ public class Home_Activity extends AppCompatActivity implements RecyclerViewAdap
             }
         }).attachToRecyclerView(remindMeListRv);
 
-
-
-        /*Button onScheduledBtn = (Button) findViewById(R.id.onScheduledBtn);
-        onScheduledBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(Home_Activity.this, ScheduledRemindMe_Activity.class));
-            }
-        });
-
-        Button editBtn = (Button) findViewById(R.id.editBtn);
-        editBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(Home_Activity.this, Edit_Activity.class));
-            }
-        });
-
-        Button createBtn = (Button) findViewById(R.id.createBtn);
-        createBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(Home_Activity.this, Create_Activity.class));
-            }
-        });*/
-
     }
-
-    /*@OnClick(R.id.createBtn)
-    public void create(){
-        startActivity(new Intent(Home_Activity.this, Create_Activity.class));
-    }*/
 
     @Override
     public void update(Observable o, Object arg) {
@@ -131,6 +107,11 @@ public class Home_Activity extends AppCompatActivity implements RecyclerViewAdap
                 viewHolder.itemView.setBackgroundColor(Color.GREEN);
             }
         }).attachToRecyclerView(remindMeListRv);
+    }
+
+    @OnClick(R.id.floating_action_button)
+    public void onClick(){
+        startActivity(new Intent(this, Create_Activity.class));
     }
 
 }

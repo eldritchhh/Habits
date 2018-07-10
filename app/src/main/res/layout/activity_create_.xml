@@ -6,62 +6,53 @@
     android:layout_height="match_parent"
     tools:context="com.example.android.habits.activities.Create_Activity">
 
-    <Button
-        android:id="@+id/homeBtn"
-        android:layout_width="wrap_content"
+    <EditText
+        android:id="@+id/remindMeNameEt"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="148dp"
-        android:layout_marginStart="148dp"
-        android:layout_marginTop="72dp"
-        android:text="home"
+        android:layout_marginLeft="44dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="32dp"
+        android:ems="10"
+        android:hint="Remind me name"
+        android:inputType="textPersonName"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/createRemindMeBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="32dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="60dp"
-        android:text="New Remind Me"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/homeBtn" />
-
-    <Button
-        android:id="@+id/showRemindMeTitleBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="32dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="44dp"
-        android:text="Show title RM"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/createRemindMeBtn" />
-
     <TextView
-        android:id="@+id/remindMeTitleTextView"
+        android:id="@+id/tasksListTv"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginLeft="88dp"
-        android:layout_marginStart="88dp"
-        android:layout_marginTop="56dp"
-        android:text="TextView"
-        android:textSize="30px"
-        app:layout_constraintStart_toEndOf="@+id/showRemindMeTitleBtn"
-        app:layout_constraintTop_toBottomOf="@+id/createRemindMeBtn" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Tasks list"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="@+id/remindMeNameEt"
+        app:layout_constraintTop_toBottomOf="@+id/remindMeNameEt" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/tasksListRv"
+        android:layout_width="300dp"
+        android:layout_height="227dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="@+id/tasksListTv"
+        app:layout_constraintTop_toBottomOf="@+id/tasksListTv" />
 
     <EditText
-        android:id="@+id/remindMeTitlePt"
-        android:layout_width="134dp"
-        android:layout_height="52dp"
-        android:layout_marginLeft="48dp"
-        android:layout_marginStart="48dp"
-        android:layout_marginTop="60dp"
+        android:id="@+id/newTaskEt"
+        android:layout_width="242dp"
+        android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Title"
+        android:hint="New task"
         android:inputType="textPersonName"
-        android:text="Name"
-        app:layout_constraintStart_toEndOf="@+id/createRemindMeBtn"
-        app:layout_constraintTop_toBottomOf="@+id/homeBtn" />
+        app:layout_constraintStart_toStartOf="@+id/tasksListRv"
+        app:layout_constraintTop_toBottomOf="@+id/tasksListRv" />
+
+    <Button
+        android:id="@+id/addTaskBtn"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:text="Add"
+        app:layout_constraintStart_toEndOf="@+id/newTaskEt"
+        app:layout_constraintTop_toBottomOf="@+id/tasksListRv" />
+
 </android.support.constraint.ConstraintLayout>
