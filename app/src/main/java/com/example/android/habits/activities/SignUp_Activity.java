@@ -98,7 +98,7 @@ public class SignUp_Activity extends AppCompatActivity {
         setResult(RESULT_OK, null);
         finish();
 
-        startActivity(new Intent(getApplicationContext(), Home_Activity.class));
+        startActivity(new Intent(getApplicationContext(), RemindMe_Activity.class)); // TODO
     }
 
     public void onSignupFailed() {
