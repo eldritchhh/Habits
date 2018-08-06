@@ -88,14 +88,12 @@ public class Home_Activity extends AppCompatActivity implements RecyclerViewAdap
 
     @Override
     public void OnListItemClick(int clickedItemId) {
-        startActivity(new Intent(getApplicationContext(), Create_Activity.class));
+        // TODO si triggera tramite dei services
 
-        /*if (mToast != null) mToast.cancel();
+        Intent intent = new Intent(this, RemindMe_Activity.class);
+        intent.putExtra("remindMeId", clickedItemId);
+        startActivity(intent);
 
-        String toastMessage = "Item #" + clickedItemId + " clicked.";
-        mToast = Toast.makeText(this, toastMessage, Toast.LENGTH_LONG);
-
-        mToast.show();*/
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
             public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
@@ -111,7 +109,7 @@ public class Home_Activity extends AppCompatActivity implements RecyclerViewAdap
 
     @OnClick(R.id.floating_action_button)
     public void onClick(){
-        startActivity(new Intent(this, Create_Activity.class));
+        // TODO => Create_Activity
     }
 
 }

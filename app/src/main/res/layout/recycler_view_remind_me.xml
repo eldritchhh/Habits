@@ -7,7 +7,7 @@
     android:layout_height="wrap_content">
 
     <TextView
-        android:id="@+id/remindMeTitleTv"
+        android:id="@+id/taskTitleTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="72dp"
@@ -36,6 +36,6 @@
         android:layout_marginStart="136dp"
         android:layout_marginTop="28dp"
         android:text="TextView"
-        app:layout_constraintStart_toEndOf="@+id/remindMeTitleTv"
+        app:layout_constraintStart_toEndOf="@+id/taskTitleTv"
         app:layout_constraintTop_toTopOf="parent" />
 </android.support.constraint.ConstraintLayout>

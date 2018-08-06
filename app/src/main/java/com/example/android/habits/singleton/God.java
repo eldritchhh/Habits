@@ -39,6 +39,7 @@ public class God {
         this.getRemindMeListFS(new Callback() {
             @Override
             public void onSuccess(Object data) {
+                remindMeList = (List<RemindMe>) data;
                 ListsObservable.getInstance().setValues(data);
             }
 
@@ -65,7 +66,9 @@ public class God {
         return god;
     }
 
-    /** LOCAL DB METHODS */
+    /**
+     * LOCAL DB METHODS
+     */
 
     public RemindMe getRemindMe(int index) {
         return this.remindMeList.get(index);
@@ -85,12 +88,13 @@ public class God {
         remindMeList.remove(remindMe);
     }
 
-    /** FIRESTORE METHODS */
+    /**
+     * FIRESTORE METHODS
+     */
 
     public void getRemindMeListFS(final Callback callback) {
         CollectionReference collectionReference = db.collection(COLLECTION_NAME);
-        collectionReference.whereEqualTo("estScheduled", true)
-                .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+        collectionReference.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 callback.onSuccess(queryDocumentSnapshots.toObjects(RemindMe.class));
@@ -159,7 +163,9 @@ public class God {
                 });
     }
 
-    /** PRIVATE METHODS */
+    /**
+     * PRIVATE METHODS
+     */
 
     private DocumentReference getDocument(String collection, String document) {
         return db.collection(collection).document(document);

@@ -55,7 +55,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         public ViewHolder(View itemView) {
             super(itemView);
-            remindMeTitleTv = (TextView) itemView.findViewById(R.id.remindMeTitleTv);
+            remindMeTitleTv = (TextView) itemView.findViewById(R.id.taskTitleTv);
             itemView.setOnClickListener(this);
         }
 
