@@ -42,6 +42,7 @@ public class RemindMe_Activity extends AppCompatActivity {
     private static String dialog_message = "Banana";
     private static String dialog_title = "Title";
 
+
     @BindView(R.id.fiveSecondsPb)
     ProgressBar fiveSecondsPb;
 
@@ -53,6 +54,7 @@ public class RemindMe_Activity extends AppCompatActivity {
 
     @BindView(R.id.taskTitleTv)
     TextView taskTitleTv;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +74,7 @@ public class RemindMe_Activity extends AppCompatActivity {
     }
 
     @OnClick(R.id.fiveSecondsBtn)
-    public void onClick() throws InterruptedException {
+    public void onClick() {
         String btnLabel = fiveSecondsBtn.getText().toString();
 
         switch (btnLabel) {
@@ -121,7 +123,11 @@ public class RemindMe_Activity extends AppCompatActivity {
                 dialog.show();
 
                 // 2 Seconds Chiudo l'app o vado alla home
-                Thread.sleep(2000);
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
 
                 startActivity(new Intent(this, Home_Activity.class));
 

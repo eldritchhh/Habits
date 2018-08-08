@@ -14,19 +14,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity android:name=".activities.SignUp_Activity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity android:name=".activities.LogIn_Activity" />
         <activity android:name=".activities.Home_Activity" />
         <activity android:name=".activities.Create_Activity" />
         <activity android:name=".activities.RemindMe_Activity" />
         <activity android:name=".activities.Edit_Activity" />
+        <activity android:name=".activities.Pref_Activity"
+                  android:theme="@style/SettingsTheme"/>
     </application>
 
 </manifest>
