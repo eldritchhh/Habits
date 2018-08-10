@@ -1,8 +1,9 @@
 package com.example.android.habits.activities;
 
 import android.content.Intent;
-import android.opengl.GLSurfaceView;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
@@ -10,6 +11,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.android.habits.R;
+import com.example.android.habits.fragments.NextTaskFragment;
 import com.example.android.habits.models.RemindMe;
 import com.example.android.habits.models.Task;
 import com.example.android.habits.singleton.God;
@@ -34,7 +36,7 @@ public class RemindMe_Activity extends AppCompatActivity {
     private static final String DONE = "DONE";
 
     private static RemindMe remindMe;
-    private static int taskIndex = 0;
+    private static int taskIndex;
     private static int tasksSize;
 
     private static int singleProgress;
@@ -42,6 +44,20 @@ public class RemindMe_Activity extends AppCompatActivity {
     private static String dialog_message = "Banana";
     private static String dialog_title = "Title";
 
+    private long startTime = 0;
+    private Handler timerHandler = new Handler();
+    private Runnable timerRunnable = new Runnable() {
+
+        @Override
+        public void run() {
+            long millis = System.currentTimeMillis() - startTime;
+            int seconds = (int) (millis / 50);
+
+            fiveSecondsPb.setProgress(100 - seconds);
+
+            timerHandler.postDelayed(this, 25);
+        }
+    };
 
     @BindView(R.id.fiveSecondsPb)
     ProgressBar fiveSecondsPb;
@@ -55,12 +71,18 @@ public class RemindMe_Activity extends AppCompatActivity {
     @BindView(R.id.taskTitleTv)
     TextView taskTitleTv;
 
+    NextTaskFragment nextTaskFragment;
+    FragmentManager fragmentManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_remind_me_);
         ButterKnife.bind(this);
+
+        // First Element
+
+        taskIndex = 0;
 
         int remindMeId = getIntent().getIntExtra("remindMeId", -1);
         remindMe = God.getInstance().getRemindMe(remindMeId);
@@ -70,7 +92,17 @@ public class RemindMe_Activity extends AppCompatActivity {
         singleProgress = 100 / tasksSize;
 
         taskTitleTv.setText(remindMe.getTasks().get(taskIndex).getDescription());
+
+        nextTaskFragment = new NextTaskFragment();
+
+        fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .add(R.id.nextElementContainer, nextTaskFragment)
+                .hide(nextTaskFragment)
+                .commit();
+
         overallPb.setProgress(0);
+
     }
 
     @OnClick(R.id.fiveSecondsBtn)
@@ -80,28 +112,51 @@ public class RemindMe_Activity extends AppCompatActivity {
         switch (btnLabel) {
 
             case START:
-                if (taskIndex < tasksSize - 1) {
-                    fiveSecondsBtn.setText(NEXT);
-                } else {
-                    fiveSecondsBtn.setText(DONE);
-                }
 
-                // STOP COUNTDOWN
+                timerHandler.removeCallbacks(timerRunnable);
 
                 fiveSecondsPb.setProgress(100);
+
+                if (taskIndex < tasksSize - 1) {
+
+                    String nextTask = remindMe.getTasks().get(taskIndex + 1).getDescription();
+                    nextTaskFragment.setNextTask(nextTask);
+
+                    fragmentManager.beginTransaction()
+                            .show(nextTaskFragment)
+                            .commit();
+
+                    fiveSecondsBtn.setText(NEXT);
+
+                } else {
+
+                    // al posto di scrivere done potremmo lasciare un feedback positivo all'utente e basta
+
+                    fiveSecondsBtn.setText(DONE);
+                }
 
                 break;
 
             case NEXT:
+
+                fragmentManager.beginTransaction()
+                        .hide(nextTaskFragment)
+                        .commit();
+
                 fiveSecondsBtn.setText(START);
 
-                Task task = remindMe.getTasks().get(++taskIndex);
+                String currentTask = remindMe.getTasks().get(++taskIndex).getDescription();
 
-                taskTitleTv.setText(task.getDescription());
+                taskTitleTv.setText(currentTask);
 
                 // START 5 sec COUNTDOWN
 
                 overallPb.setProgress(singleProgress * taskIndex);
+
+                // TIMER
+
+                startTime = System.currentTimeMillis();
+                timerHandler.postDelayed(timerRunnable, 0);
 
                 break;
 
@@ -121,13 +176,6 @@ public class RemindMe_Activity extends AppCompatActivity {
                 AlertDialog dialog = builder.create();
 
                 dialog.show();
-
-                // 2 Seconds Chiudo l'app o vado alla home
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
 
                 startActivity(new Intent(this, Home_Activity.class));
 

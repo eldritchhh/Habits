@@ -52,4 +52,16 @@
         app:layout_constraintStart_toStartOf="@+id/fiveSecondsPb"
         app:layout_constraintTop_toTopOf="@+id/fiveSecondsPb" />
 
+    <LinearLayout
+        android:id="@+id/nextElementContainer"
+        android:layout_width="344dp"
+        android:layout_height="78dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fiveSecondsPb"></LinearLayout>
+
+
 </android.support.constraint.ConstraintLayout>

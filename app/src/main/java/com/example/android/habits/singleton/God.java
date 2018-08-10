@@ -36,17 +36,7 @@ public class God {
         // - un doc con personal info
         setUpDb();
 
-        this.getRemindMeListFS(new Callback() {
-            @Override
-            public void onSuccess(Object data) {
-                remindMeList = (List<RemindMe>) data;
-                ListsObservable.getInstance().setValues(data);
-            }
-
-            @Override
-            public void onFailure(Error error, String message) {
-            }
-        });
+        synchronizeRemindMeList();
     }
 
     private void setUpDb() {
@@ -66,6 +56,21 @@ public class God {
         return god;
     }
 
+    public void synchronizeRemindMeList() {
+        this.getRemindMeListFS(new Callback() {
+            @Override
+            public void onSuccess(Object data) {
+                if (remindMeList == null)
+                    ListsObservable.getInstance().setValues(data);
+                remindMeList = (List<RemindMe>) data;
+            }
+
+            @Override
+            public void onFailure(Error error, String message) {
+            }
+        });
+    }
+
     /**
      * LOCAL DB METHODS
      */
@@ -81,7 +86,10 @@ public class God {
     public void addRemindMe(RemindMe remindMe) {
         // TODO Controlli?
         remindMeList.add(remindMe);
-        // TODO asyncTask per aggiornare DB
+
+        // TODO Synchro DEVE ASSOLUTAMENTE partire dopo la addFS altrimenti la riprende uguale
+        // addRemindMeFS(remindMe);
+        // synchronizeRemindMeList();
     }
 
     public void deleteRemindMe(RemindMe remindMe) {

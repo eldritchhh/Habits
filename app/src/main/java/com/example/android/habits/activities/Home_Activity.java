@@ -49,6 +49,8 @@ public class Home_Activity extends AppCompatActivity implements SharedPreference
     private RecyclerViewAdapter mAdapter;
     private SharedPreferences sharedPreferences;
 
+    private God god;
+
     /*@BindView(R.id.createBtn)
     Button createBtn;*/
 
@@ -58,7 +60,7 @@ public class Home_Activity extends AppCompatActivity implements SharedPreference
         setContentView(R.layout.activity_home_);
         ButterKnife.bind(this);
 
-        God.getInstance();
+        god = God.getInstance();
 
         ListsObservable.getInstance().addObserver(this);
 
@@ -67,6 +69,11 @@ public class Home_Activity extends AppCompatActivity implements SharedPreference
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
 
         this.remindMeListRv.setLayoutManager(layoutManager);
+
+        if (god.getRemindMeList() != null) {
+            mAdapter = new RecyclerViewAdapter(5, this, god.getRemindMeList());
+            remindMeListRv.setAdapter(mAdapter);
+        }
 
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
