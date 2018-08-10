@@ -84,23 +84,20 @@ public class God {
     }
 
     public void addRemindMe(RemindMe remindMe) {
-        // TODO Controlli?
         remindMeList.add(remindMe);
-
-        // TODO Synchro DEVE ASSOLUTAMENTE partire dopo la addFS altrimenti la riprende uguale
-        // addRemindMeFS(remindMe);
-        // synchronizeRemindMeList();
+        addRemindMeFS(remindMe);
     }
 
     public void deleteRemindMe(RemindMe remindMe) {
         remindMeList.remove(remindMe);
+        deleteRemindMeFS(remindMe.getTitle());
     }
 
     /**
      * FIRESTORE METHODS
      */
 
-    public void getRemindMeListFS(final Callback callback) {
+    private void getRemindMeListFS(final Callback callback) {
         CollectionReference collectionReference = db.collection(COLLECTION_NAME);
         collectionReference.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
@@ -110,39 +107,26 @@ public class God {
         });
     }
 
-    public void getRemindMeFS(final String title, final Callback callback) {
-
-        // TODO gestire exceptions, error, document not found, etc
-
-        DocumentReference documentReference = this.getDocument(COLLECTION_NAME, title);
-        documentReference.get()
-                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+    private void addRemindMeFS(RemindMe remindMe) {
+        db.collection(COLLECTION_NAME)
+                .document(remindMe.getTitle())
+                .set(remindMe)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
-                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        RemindMe remindMe = documentSnapshot.toObject(RemindMe.class);
-                        callback.onSuccess(remindMe);
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        callback.onFailure(new Error(), "Non sono riuscito a gettare il doc");
+                    public void onSuccess(Void aVoid) {
+                        synchronizeRemindMeList();
                     }
                 });
     }
 
-    public void addRemindMeFS(RemindMe remindMe) {
-        db.collection(COLLECTION_NAME).document(remindMe.getTitle()).set(remindMe);
-    }
-
-    public void updateRemindMeFS(final String title, String newTitle, final Callback callback) {
+    private void updateRemindMeFS(final String title, String newTitle) {
         DocumentReference documentReference = this.getDocument(COLLECTION_NAME, title);
 
         documentReference.update("title", newTitle)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        // feedback document updated
+                        synchronizeRemindMeList();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -153,14 +137,14 @@ public class God {
                 });
     }
 
-    public void deleteRemindMeFS(final String title, final Callback callback) {
+    private void deleteRemindMeFS(final String title) {
         DocumentReference documentReference = this.getDocument(COLLECTION_NAME, title);
 
         documentReference.delete()
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        // feedback document deleted
+                        synchronizeRemindMeList();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

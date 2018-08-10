@@ -10,7 +10,9 @@ import android.widget.TextView;
 
 import com.example.android.habits.R;
 import com.example.android.habits.models.RemindMe;
+import com.example.android.habits.models.Task;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TasksRecyclerViewAdapter extends RecyclerView.Adapter<TasksRecyclerViewAdapter.ViewHolder> {
@@ -18,6 +20,15 @@ public class TasksRecyclerViewAdapter extends RecyclerView.Adapter<TasksRecycler
     private int itemsNumber;
     private final ListItemClickListener mListener;
     private List<String> tasksList;
+
+
+    public List<Task> getTasksList() {
+        List<Task> tasks = new ArrayList<>();
+        for (String s : tasksList)
+            tasks.add(new Task(s));
+
+        return tasks;
+    }
 
     public TasksRecyclerViewAdapter(int itemsNumber, ListItemClickListener listener, List<String> tasksList) {
         this.itemsNumber = itemsNumber;
@@ -49,7 +60,7 @@ public class TasksRecyclerViewAdapter extends RecyclerView.Adapter<TasksRecycler
         return this.tasksList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private TextView taskNameTv;
 
@@ -66,7 +77,7 @@ public class TasksRecyclerViewAdapter extends RecyclerView.Adapter<TasksRecycler
         }
     }
 
-    public interface ListItemClickListener{
+    public interface ListItemClickListener {
         void OnListItemClick(int clickedItemId);
     }
 }

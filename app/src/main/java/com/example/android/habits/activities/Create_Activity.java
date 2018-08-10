@@ -1,5 +1,6 @@
 package com.example.android.habits.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,9 +9,11 @@ import android.widget.EditText;
 
 import com.example.android.habits.R;
 import com.example.android.habits.adapters.TasksRecyclerViewAdapter;
+import com.example.android.habits.models.RemindMe;
 import com.example.android.habits.singleton.God;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import butterknife.BindView;
@@ -28,6 +31,8 @@ public class Create_Activity extends AppCompatActivity implements TasksRecyclerV
     private List<String> tasks;
 
     private TasksRecyclerViewAdapter mAdapter;
+
+    private RemindMe remindMe;
 
     @BindView(R.id.remindMeNameEt)
     EditText remindMeNameEt;
@@ -58,6 +63,34 @@ public class Create_Activity extends AppCompatActivity implements TasksRecyclerV
     public void onClick(){
         this.tasks.add(newTaskEt.getText().toString());
         mAdapter.notifyDataSetChanged();
+    }
+
+    @OnClick(R.id.doneBtn)
+    public void onClickDone(){
+
+        List<Boolean> bools = new ArrayList<>();
+        bools.add(true);
+        bools.add(true);
+        bools.add(false);
+        bools.add(true);
+        bools.add(true);
+        bools.add(false);
+        bools.add(true);
+
+        remindMe = new RemindMe(
+                remindMeNameEt.getText().toString(),
+                mAdapter.getTasksList(),
+                Calendar.getInstance().getTime(),
+                bools);
+
+        God.getInstance().addRemindMe(remindMe);
+
+        startActivity(new Intent(this, Home_Activity.class));
+    }
+
+    @OnClick(R.id.cancelBtn)
+    public void onClickCancel(){
+        startActivity(new Intent(this, Home_Activity.class));
     }
 
     @Override

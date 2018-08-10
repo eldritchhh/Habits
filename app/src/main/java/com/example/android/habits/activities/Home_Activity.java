@@ -70,7 +70,9 @@ public class Home_Activity extends AppCompatActivity implements SharedPreference
 
         this.remindMeListRv.setLayoutManager(layoutManager);
 
+
         if (god.getRemindMeList() != null) {
+            List<RemindMe> x = god.getRemindMeList();
             mAdapter = new RecyclerViewAdapter(5, this, god.getRemindMeList());
             remindMeListRv.setAdapter(mAdapter);
         }
@@ -204,7 +206,7 @@ public class Home_Activity extends AppCompatActivity implements SharedPreference
 
     @OnClick(R.id.floating_action_button)
     public void onClick(){
-        // TODO => Create_Activity
+        startActivity(new Intent(this, Create_Activity.class));
     }
 
 }
