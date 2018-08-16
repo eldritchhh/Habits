@@ -2,6 +2,7 @@ package com.example.android.habits.models;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 public class RemindMe {
 
@@ -15,6 +16,15 @@ public class RemindMe {
 
     public RemindMe() {
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        RemindMe remindMe = (RemindMe) o;
+        return Objects.equals(getTitle(), remindMe.getTitle());
+    }
+
 
     public RemindMe(String title, List<Task> tasks, Date scheduleTime, List<Boolean> weekdays) {
         this.title = title;

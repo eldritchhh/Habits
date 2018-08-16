@@ -2,13 +2,11 @@ package com.example.android.habits.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -42,7 +40,7 @@ import butterknife.OnClick;
 // TODO salvare le cose in locale (mySql) e pushare in Asynctask
 // TODO per le liste scheduled countdown dal prossimo scheduling
 
-public class Home_Activity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener, RecyclerViewAdapter.ListItemClickListener, Observer {
+public class Home_Activity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener, RecyclerViewAdapter.ListItemLongClickListener, RecyclerViewAdapter.ListItemClickListener, Observer {
 
     private RecyclerView remindMeListRv;
     private Toast mToast;
@@ -50,9 +48,6 @@ public class Home_Activity extends AppCompatActivity implements SharedPreference
     private SharedPreferences sharedPreferences;
 
     private God god;
-
-    /*@BindView(R.id.createBtn)
-    Button createBtn;*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,25 +67,12 @@ public class Home_Activity extends AppCompatActivity implements SharedPreference
 
 
         if (god.getRemindMeList() != null) {
-            List<RemindMe> x = god.getRemindMeList();
-            mAdapter = new RecyclerViewAdapter(5, this, god.getRemindMeList());
+            mAdapter = new RecyclerViewAdapter(5, this, this, god.getRemindMeList());
             remindMeListRv.setAdapter(mAdapter);
+            mAdapter.notifyDataSetChanged();
         }
 
-        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
-            @Override
-            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-                return false;
-            }
-
-            @Override
-            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-                viewHolder.itemView.setBackgroundColor(Color.GREEN);
-            }
-        }).attachToRecyclerView(remindMeListRv);
-
         setUpPreferences();
-
     }
 
     @Override
@@ -179,7 +161,7 @@ public class Home_Activity extends AppCompatActivity implements SharedPreference
 
     @Override
     public void update(Observable o, Object arg) {
-        mAdapter = new RecyclerViewAdapter(5, this, (List<RemindMe>) arg);
+        mAdapter = new RecyclerViewAdapter(5, this, this, (List<RemindMe>) arg);
         remindMeListRv.setAdapter(mAdapter);
     }
 
@@ -187,21 +169,17 @@ public class Home_Activity extends AppCompatActivity implements SharedPreference
     public void OnListItemClick(int clickedItemId) {
         // TODO si triggera tramite dei services
 
+         //String title = god.getRemindMe(clickedItemId).getTitle();
+
         Intent intent = new Intent(this, RemindMe_Activity.class);
         intent.putExtra("remindMeId", clickedItemId);
         startActivity(intent);
+    }
 
-        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
-            @Override
-            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-                return false;
-            }
-
-            @Override
-            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-                viewHolder.itemView.setBackgroundColor(Color.GREEN);
-            }
-        }).attachToRecyclerView(remindMeListRv);
+    @Override
+    public void OnListItemLongClick(int clickedItemId) {
+        god.deleteRemindMe(god.getRemindMe(clickedItemId));
+        mAdapter.notifyDataSetChanged();
     }
 
     @OnClick(R.id.floating_action_button)

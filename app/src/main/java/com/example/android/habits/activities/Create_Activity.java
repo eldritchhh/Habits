@@ -85,7 +85,8 @@ public class Create_Activity extends AppCompatActivity implements TasksRecyclerV
 
         God.getInstance().addRemindMe(remindMe);
 
-        startActivity(new Intent(this, Home_Activity.class));
+        Intent intent = new Intent(this, Home_Activity.class);
+        startActivity(intent);
     }
 
     @OnClick(R.id.cancelBtn)
@@ -94,7 +95,5 @@ public class Create_Activity extends AppCompatActivity implements TasksRecyclerV
     }
 
     @Override
-    public void OnListItemClick(int clickedItemId) {
-
-    }
+    public void OnListItemClick(int clickedItemId) {}
 }

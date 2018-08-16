@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -11,6 +12,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import com.example.android.habits.models.RemindMe;
@@ -56,21 +59,6 @@ public class God {
         return god;
     }
 
-    public void synchronizeRemindMeList() {
-        this.getRemindMeListFS(new Callback() {
-            @Override
-            public void onSuccess(Object data) {
-                if (remindMeList == null)
-                    ListsObservable.getInstance().setValues(data);
-                remindMeList = (List<RemindMe>) data;
-            }
-
-            @Override
-            public void onFailure(Error error, String message) {
-            }
-        });
-    }
-
     /**
      * LOCAL DB METHODS
      */
@@ -90,6 +78,7 @@ public class God {
 
     public void deleteRemindMe(RemindMe remindMe) {
         remindMeList.remove(remindMe);
+
         deleteRemindMeFS(remindMe.getTitle());
     }
 
@@ -126,7 +115,7 @@ public class God {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        synchronizeRemindMeList();
+                       // synchronizeRemindMeList();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -155,9 +144,42 @@ public class God {
                 });
     }
 
+
     /**
      * PRIVATE METHODS
      */
+
+    private class mComparator implements Comparator<RemindMe>{
+        public int compare(RemindMe left, RemindMe right) {
+            return left.getTitle().compareTo(right.getTitle());
+        }
+    }
+
+
+    // TODO sistemare questo metodo mettendo il concetto della sincronizzazione nell'onFailure
+    // delle chiamate FS
+    private void synchronizeRemindMeList() {
+        this.getRemindMeListFS(new Callback() {
+            @Override
+            public void onSuccess(Object data) {
+                if (remindMeList == null) {
+                    ListsObservable.getInstance().setValues(data);
+                    remindMeList = (List<RemindMe>) data;
+                } else {
+                    Collections.sort(remindMeList, new mComparator());
+                    boolean flag = remindMeList.equals((List<RemindMe>) data);
+                    if (! flag) {
+                        // TODO qui va aggiornata la lista remota con quella locale, e non viceversa
+                        // remindMeList = (List<RemindMe>) data;
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Error error, String message) {
+            }
+        });
+    }
 
     private DocumentReference getDocument(String collection, String document) {
         return db.collection(collection).document(document);

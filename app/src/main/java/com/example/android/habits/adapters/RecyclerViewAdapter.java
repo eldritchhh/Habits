@@ -17,11 +17,21 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     private int itemsNumber;
     private final ListItemClickListener mListener;
+    private final ListItemLongClickListener mLongListener;
     private List<RemindMe> remindMeList;
 
-    public RecyclerViewAdapter(int itemsNumber, ListItemClickListener listener, List<RemindMe> remindMeList) {
+    public interface ListItemLongClickListener {
+        void OnListItemLongClick(int clickedItemId);
+    }
+
+    public interface ListItemClickListener {
+        void OnListItemClick(int clickedItemId);
+    }
+
+    public RecyclerViewAdapter(int itemsNumber, ListItemClickListener listener, ListItemLongClickListener mLongListener, List<RemindMe> remindMeList) {
         this.itemsNumber = itemsNumber;
         this.mListener = listener;
+        this.mLongListener = mLongListener;
         this.remindMeList = remindMeList;
     }
 
@@ -49,7 +59,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return this.remindMeList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
         private TextView remindMeTitleTv;
 
@@ -57,6 +68,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             super(itemView);
             remindMeTitleTv = (TextView) itemView.findViewById(R.id.taskTitleTv);
             itemView.setOnClickListener(this);
+            itemView.setOnLongClickListener(this);
         }
 
         @Override
@@ -64,9 +76,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             int position = getAdapterPosition();
             mListener.OnListItemClick(position);
         }
+
+        @Override
+        public boolean onLongClick(View v) {
+            int position = getAdapterPosition();
+            mLongListener.OnListItemLongClick(position);
+            return true;
+        }
     }
 
-    public interface ListItemClickListener{
-        void OnListItemClick(int clickedItemId);
-    }
 }
