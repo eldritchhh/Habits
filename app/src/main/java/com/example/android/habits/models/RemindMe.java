@@ -17,15 +17,6 @@ public class RemindMe {
     public RemindMe() {
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        RemindMe remindMe = (RemindMe) o;
-        return Objects.equals(getTitle(), remindMe.getTitle());
-    }
-
-
     public RemindMe(String title, List<Task> tasks, Date scheduleTime, List<Boolean> weekdays) {
         this.title = title;
         this.tasks = tasks;
@@ -72,6 +63,14 @@ public class RemindMe {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        RemindMe remindMe = (RemindMe) o;
+        return Objects.equals(getTitle(), remindMe.getTitle());
     }
 
 }

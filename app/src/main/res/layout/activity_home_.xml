@@ -9,7 +9,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/remindMeListRv"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="423dp"
         tools:context="com.example.android.habits.activities.Home_Activity">
 
     </android.support.v7.widget.RecyclerView>
@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
         android:layout_margin="16dp"
-        app:fabSize="normal"
-        android:src="@drawable/ic_plus"/>
+        android:src="@drawable/ic_plus"
+        app:fabSize="normal" />
 
 </LinearLayout>

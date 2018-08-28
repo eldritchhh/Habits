@@ -4,10 +4,8 @@ import android.support.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -39,7 +37,7 @@ public class God {
         // - un doc con personal info
         setUpDb();
 
-        synchronizeRemindMeList();
+        downloadRemindMeList();
     }
 
     private void setUpDb() {
@@ -73,12 +71,20 @@ public class God {
 
     public void addRemindMe(RemindMe remindMe) {
         remindMeList.add(remindMe);
+        Collections.sort(remindMeList, new mComparator());
         addRemindMeFS(remindMe);
+    }
+
+    public void updateRemindMe(RemindMe remindMe) {
+        int index = remindMeList.indexOf(remindMe);
+        remindMeList.set(index, remindMe);
+        Collections.sort(remindMeList, new mComparator());
+        // TODO creare i vari update
+        updateRemindMeFS(remindMe.getTitle(), "newTitle");
     }
 
     public void deleteRemindMe(RemindMe remindMe) {
         remindMeList.remove(remindMe);
-
         deleteRemindMeFS(remindMe.getTitle());
     }
 
@@ -100,10 +106,10 @@ public class God {
         db.collection(COLLECTION_NAME)
                 .document(remindMe.getTitle())
                 .set(remindMe)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                .addOnFailureListener(new OnFailureListener() {
                     @Override
-                    public void onSuccess(Void aVoid) {
-                        synchronizeRemindMeList();
+                    public void onFailure(@NonNull Exception e) {
+                        // TODO retry
                     }
                 });
     }
@@ -112,16 +118,10 @@ public class God {
         DocumentReference documentReference = this.getDocument(COLLECTION_NAME, title);
 
         documentReference.update("title", newTitle)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                       // synchronizeRemindMeList();
-                    }
-                })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        // feedback document not updated
+                        // TODO retry
                     }
                 });
     }
@@ -130,53 +130,38 @@ public class God {
         DocumentReference documentReference = this.getDocument(COLLECTION_NAME, title);
 
         documentReference.delete()
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        synchronizeRemindMeList();
-                    }
-                })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        // feedback document not deleted
+                        // TODO retry
                     }
                 });
     }
-
 
     /**
      * PRIVATE METHODS
      */
 
-    private class mComparator implements Comparator<RemindMe>{
+    private class mComparator implements Comparator<RemindMe> {
         public int compare(RemindMe left, RemindMe right) {
             return left.getTitle().compareTo(right.getTitle());
         }
     }
 
-
-    // TODO sistemare questo metodo mettendo il concetto della sincronizzazione nell'onFailure
-    // delle chiamate FS
-    private void synchronizeRemindMeList() {
+    private void downloadRemindMeList() {
         this.getRemindMeListFS(new Callback() {
             @Override
             public void onSuccess(Object data) {
                 if (remindMeList == null) {
                     ListsObservable.getInstance().setValues(data);
                     remindMeList = (List<RemindMe>) data;
-                } else {
                     Collections.sort(remindMeList, new mComparator());
-                    boolean flag = remindMeList.equals((List<RemindMe>) data);
-                    if (! flag) {
-                        // TODO qui va aggiornata la lista remota con quella locale, e non viceversa
-                        // remindMeList = (List<RemindMe>) data;
-                    }
                 }
             }
 
             @Override
             public void onFailure(Error error, String message) {
+                // TODO retry
             }
         });
     }

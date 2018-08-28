@@ -32,7 +32,7 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/tasksListRv"
         android:layout_width="300dp"
-        android:layout_height="227dp"
+        android:layout_height="71dp"
         android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="@+id/tasksListTv"
         app:layout_constraintTop_toBottomOf="@+id/tasksListTv" />
@@ -51,27 +51,38 @@
         android:id="@+id/addTaskBtn"
         android:layout_width="60dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:text="Add"
         app:layout_constraintStart_toEndOf="@+id/newTaskEt"
         app:layout_constraintTop_toBottomOf="@+id/tasksListRv" />
+
+    <com.dpro.widgets.WeekdaysPicker
+        android:id="@+id/weekdays"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        app:enabled="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/newTaskEt"
+        app:show_weekend="true"
+        app:sunday_first_day="false"></com.dpro.widgets.WeekdaysPicker>
 
     <Button
         android:id="@+id/doneBtn"
         android:layout_width="149dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="24dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="100dp"
         android:text="Done"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/newTaskEt" />
+        app:layout_constraintTop_toBottomOf="@+id/weekdays" />
 
     <Button
         android:id="@+id/cancelBtn"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="36dp"
-        android:layout_marginStart="36dp"
+        android:layout_marginStart="16dp"
         android:text="CANCEL"
         app:layout_constraintStart_toEndOf="@+id/doneBtn"
         app:layout_constraintTop_toTopOf="@+id/doneBtn" />

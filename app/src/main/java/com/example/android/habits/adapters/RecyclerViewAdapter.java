@@ -28,10 +28,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         void OnListItemClick(int clickedItemId);
     }
 
-    public RecyclerViewAdapter(int itemsNumber, ListItemClickListener listener, ListItemLongClickListener mLongListener, List<RemindMe> remindMeList) {
+    public RecyclerViewAdapter(int itemsNumber, Context context, List<RemindMe> remindMeList) {
         this.itemsNumber = itemsNumber;
-        this.mListener = listener;
-        this.mLongListener = mLongListener;
+        this.mListener = (ListItemClickListener) context;
+        this.mLongListener = (ListItemLongClickListener) context;
         this.remindMeList = remindMeList;
     }
 

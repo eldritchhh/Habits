@@ -5,8 +5,11 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.EditText;
 
+import com.dpro.widgets.OnWeekdaysChangeListener;
+import com.dpro.widgets.WeekdaysPicker;
 import com.example.android.habits.R;
 import com.example.android.habits.adapters.TasksRecyclerViewAdapter;
 import com.example.android.habits.models.RemindMe;
@@ -43,6 +46,9 @@ public class Create_Activity extends AppCompatActivity implements TasksRecyclerV
     @BindView(R.id.newTaskEt)
     EditText newTaskEt;
 
+    @BindView(R.id.weekdays)
+    WeekdaysPicker weekdays;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,31 +63,42 @@ public class Create_Activity extends AppCompatActivity implements TasksRecyclerV
 
         mAdapter = new TasksRecyclerViewAdapter(5, this, this.tasks);
         tasksListRv.setAdapter(mAdapter);
+
+        weekdays.setOnWeekdaysChangeListener(new OnWeekdaysChangeListener() {
+            @Override
+            public void onChange(View view, int clickedDayOfWeek, List<Integer> selectedDays) {
+
+            }
+        });
     }
 
     @OnClick(R.id.addTaskBtn)
-    public void onClick(){
+    public void onClick() {
         this.tasks.add(newTaskEt.getText().toString());
         mAdapter.notifyDataSetChanged();
     }
 
     @OnClick(R.id.doneBtn)
-    public void onClickDone(){
+    public void onClickDone() {
 
-        List<Boolean> bools = new ArrayList<>();
-        bools.add(true);
-        bools.add(true);
-        bools.add(false);
-        bools.add(true);
-        bools.add(true);
-        bools.add(false);
-        bools.add(true);
+        List<Integer> selectedDays = weekdays.getSelectedDays();
+
+        List<Boolean> weekdaysSelected = new ArrayList<>(7);
+
+        for (int i = 0; i < 7; i++) {
+            weekdaysSelected.add(false);
+        }
+
+        // S M T W T F S
+        for (int day : selectedDays) {
+            weekdaysSelected.set(day - 1, true);
+        }
 
         remindMe = new RemindMe(
                 remindMeNameEt.getText().toString(),
                 mAdapter.getTasksList(),
                 Calendar.getInstance().getTime(),
-                bools);
+                weekdaysSelected);
 
         God.getInstance().addRemindMe(remindMe);
 
@@ -90,10 +107,11 @@ public class Create_Activity extends AppCompatActivity implements TasksRecyclerV
     }
 
     @OnClick(R.id.cancelBtn)
-    public void onClickCancel(){
+    public void onClickCancel() {
         startActivity(new Intent(this, Home_Activity.class));
     }
 
     @Override
-    public void OnListItemClick(int clickedItemId) {}
+    public void OnListItemClick(int clickedItemId) {
+    }
 }

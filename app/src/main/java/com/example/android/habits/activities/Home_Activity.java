@@ -67,7 +67,7 @@ public class Home_Activity extends AppCompatActivity implements SharedPreference
 
 
         if (god.getRemindMeList() != null) {
-            mAdapter = new RecyclerViewAdapter(5, this, this, god.getRemindMeList());
+            mAdapter = new RecyclerViewAdapter(5, this, god.getRemindMeList());
             remindMeListRv.setAdapter(mAdapter);
             mAdapter.notifyDataSetChanged();
         }
@@ -160,8 +160,9 @@ public class Home_Activity extends AppCompatActivity implements SharedPreference
     }
 
     @Override
-    public void update(Observable o, Object arg) {
-        mAdapter = new RecyclerViewAdapter(5, this, this, (List<RemindMe>) arg);
+    public void update(Observable o, Object remindMeList) {
+        // delete observer ?
+        mAdapter = new RecyclerViewAdapter(5, this, (List<RemindMe>) remindMeList);
         remindMeListRv.setAdapter(mAdapter);
     }
 
